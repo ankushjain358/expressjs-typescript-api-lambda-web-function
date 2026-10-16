@@ -42,29 +42,6 @@ app.get("/api/users", (_req: Request, res: Response) => {
   res.json(users);
 });
 
-// GET /api/users/:id
-app.get("/api/users/:id", (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-
-  if (!Number.isInteger(id) || id <= 0) {
-    res.status(400).json({
-      message: "Invalid user ID"
-    });
-    return;
-  }
-
-  const user = users.find((item) => item.id === id);
-
-  if (!user) {
-    res.status(404).json({
-      message: "User not found"
-    });
-    return;
-  }
-
-  res.json(user);
-});
-
 // POST /api/echo
 app.post("/api/echo", (req: Request, res: Response) => {
   res.json({
@@ -73,8 +50,7 @@ app.post("/api/echo", (req: Request, res: Response) => {
 });
 
 // Start the HTTP server
-const endpoint =
-  process.env.AWS_LAMBDA_HTTP_ENDPOINT ?? "127.0.0.1:3000";
+const endpoint = process.env.AWS_LAMBDA_HTTP_ENDPOINT ?? "127.0.0.1:3000";
 
 const separatorIndex = endpoint.lastIndexOf(":");
 const host = endpoint.substring(0, separatorIndex);
